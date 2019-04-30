@@ -187,3 +187,24 @@ impl fmt::Display for BinaryPackageVersions {
         write!(f, "{} + {} versions", self.pkg, self.versions.len())
     }
 }
+
+#[derive(Clone, Debug)]
+pub struct BinaryPackageVersionOrigins {
+    pub pkg: BinaryPackage,
+    pub version_origins: Vec<VersionOrigins>,
+}
+
+impl BinaryPackageVersionOrigins {
+    pub fn new(view: &sane::PkgView) -> Self {
+        BinaryPackageVersionOrigins {
+            pkg: BinaryPackage::new(view),
+            version_origins: view.versions().map(VersionOrigins::new).collect(),
+        }
+    }
+}
+
+impl fmt::Display for BinaryPackageVersionOrigins {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{} + {} versions", self.pkg, self.version_origins.len())
+    }
+}
